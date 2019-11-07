@@ -33,23 +33,31 @@
  * @brief   Application entry point.
  */
 #include <stdio.h>
-#include "board.h"
-#include "peripherals.h"
-#include "pin_mux.h"
-#include "clock_config.h"
 #include "MKL25Z4.h"
-#include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
-
+uint8 UARTVal = 0;
+uint32_t PWMVal = 0;
 /*
  * @brief   Application entry point.
  */
 int main(void) {
+	UART_vfnDriverInit();
+	PWM_vfnDriverInit();
 
     while(1) {
 
     }
     return 0 ;
+}
+
+void LED_vfnInitconfig(void)
+{
+	SIM->SCGC5 |= SIM_SCGC5_PORTD_MASK;
+	PORTD->PCR[2] |= PORT_PCR_MUX(1);
+	GPIOD->PDDR |= (1<<2);
+//	PORTD->PCR[3] |= PORT_PCR_MUX(1);
+//	GPIOD->PDDR |= (1<<3);
+//	GPIOD->PCOR |= (1<<3);
 }
